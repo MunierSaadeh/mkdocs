@@ -1,6 +1,6 @@
 # Sample Code and a Table
 
-### Python Code Block
+### Dockerfile
 
 ```
 # Dockerfile for mkdocs project 'localDocs'
