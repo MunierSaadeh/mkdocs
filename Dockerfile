@@ -3,19 +3,29 @@
 # Base image
 FROM ubuntu:latest
 
-# Update package manager and install mkdocs
-RUN sudo apt-get update && sudo apt-get upgrade \
-    && sudo apt-get install mkdocs
+ENV MKDOCS_HOME "localDocs"
+ENV MKDOCS_PORT 40000
+
+# Update package manager,install mkdocs, clear apt list
+RUN apt-get update -qy && \
+    apt-get upgrade -qy && \
+    apt-get install mkdocs -qy && \
+    rm -rf /var/lib/apt/lists/*
+
+# Create the project directory
+RUN mkdir -p ${MKDOCS_HOME}
+
+# Establish a standard working directory
+WORKDIR WORKDIR ${MKDOCS_HOME}
 
 # Copy config file and index pages to container from local machine
-COPY /localDocs/mkdocs.yml ~/localDocs/mkdocs.yml
-COPY /localDocs/docs/index.md ~/localDocs/docs/index.md
-COPY /localDocs/docs/index2.md ~/localDocs/docs/index2.md
-COPY /localDocs/docs/index3.md ~/localDocs/docs/index3.md
+COPY ./mkdocs.yml mkdocs.yml
+COPY ./docs/index.md docs/index.md
+COPY ./docs/index2.md docs/index2.md
+COPY ./docs/index3.md docs/index3.md
 
-# change into the mkdocs directory and launch local server
-CMD ["cd", "~/localDocs"] 
-CMD ["mkdocs", "serve"] 
+# launch local server
+CMD ["mkdocs", "serve"]
 
 # Make available the port I have mkdocs hosting on
-EXPOSE 40000
+EXPOSE ${MKDOCS_PORT}
