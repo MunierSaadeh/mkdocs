@@ -15,4 +15,10 @@ Below is an overview of my general approach to this exercise
 * `Install mkdocs` - sudo apt-get update && sudo apt-get install mkdocs, play around with config file
 * `Create .md` - inside /docs created three markdown pages
 * `Review Docker docs` - review docker documentation as it pertains to Dockerfile
-* `Draft Dockerfile` - create Dockerfile which will host these docss
+* `Draft Dockerfile` - create Dockerfile which will host these docs
+    - use ENV lines to make Dockerfile modifiable without changing base image
+    - COPY my mkdocs files into the image
+* `Hosting in Container` - use docker build -t mkdocs-ubuntu:1.0 .
+    - docker images to check that my tag is there
+    - docker run -d --name=mkdocs -e 40000:40000 mkdocs-ubuntu:1.0  exposing the port in the mkdocs.yml
+    - docker ps to check that it was successful
